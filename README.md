@@ -79,3 +79,11 @@ g++ main.cpp glad/glad.c -o sim -lglfw -lGL -ldl
 ```bash
 g++ main.cpp glad.c -o sim.exe -lglfw3 -lopengl32 -lgdi32
 ```
+
+<h3 align="center">
+    To Do - Ideas
+</h3>
+
+[x] Colours
+[ ] Game concept
+[ ] Output modeling
