@@ -293,7 +293,7 @@ int main() {
         return -1;
     }
 
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Physarum Emergent", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Physarum CPP", NULL, NULL);
     glfwMakeContextCurrent(window);
 
     if (!gladLoadGL()) {
