@@ -167,11 +167,11 @@ public:
                 a.angle = randf() * 2.0f * M_PI;
             }
 
-            // moviment
+            // --------- moviment ---------
             a.x += cos(a.angle) * STEP_SIZE;
             a.y += sin(a.angle) * STEP_SIZE;
 
-            //                              wrap
+            // ------------- wrap -------------
             if (a.x < 0) a.x += WIDTH;
             if (a.x >= WIDTH) a.x -= WIDTH;
             if (a.y < 0) a.y += HEIGHT;
@@ -181,10 +181,10 @@ public:
             int iy = (int)a.y;
             int idx = iy * WIDTH + ix;
 
-            //                            --- deposits trail ---
+            //          --- deposits trail ---
             trail[idx] = std::min(trail[idx] + 1.2f, 20.0f);
 
-            //                            --- consumes food ---
+            //           --- consumes food ---
             if (food[idx] > 0.0f) {
                 food[idx] -= CONSUME_RATE;
                 if (food[idx] < 0.0f) food[idx] = 0.0f;
