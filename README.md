@@ -84,6 +84,6 @@ g++ main.cpp glad.c -o sim.exe -lglfw3 -lopengl32 -lgdi32
     To Do - Ideas
 </h3>
 
-[x] Colours
-[ ] Game concept
-[ ] Output modeling
+- [x] Colours
+- [ ] Game concept
+- [ ] Output modeling
