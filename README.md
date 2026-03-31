@@ -70,7 +70,12 @@ cmake ..
 cmake --build .
 ./sim
 ```
-## Build 2: Hands-on
+## Build 2: 
+### Linux:
 ```bash
 g++ main.cpp glad/glad.c -o sim -lglfw -lGL -ldl
+```
+### Windows:
+```bash
+g++ main.cpp glad.c -o sim.exe -lglfw3 -lopengl32 -lgdi32
 ```
