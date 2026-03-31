@@ -81,7 +81,7 @@ g++ main.cpp glad.c -o sim.exe -lglfw3 -lopengl32 -lgdi32
 ```
 
 <h3 align="center">
-    To Do - Ideas
+    ------------------ To Do - Ideas ------------------
 </h3>
 
 - [x] Colours
