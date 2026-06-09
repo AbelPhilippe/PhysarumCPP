@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/sim.dir/src/main.cpp.o CMakeFiles/sim.dir/src/simulation.cpp.o -o sim  libglad.a _deps/glfw-build/src/libglfw3.a -lGL -ldl -lpthread /usr/lib/x86_64-linux-gnu/librt.a -lm /usr/lib/x86_64-linux-gnu/libX11.so -ldl 

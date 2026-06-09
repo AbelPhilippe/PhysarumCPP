@@ -1,101 +1,44 @@
-#include "glad/glad.h"
-#include <GLFW/glfw3.h>
+#include "simulation.h"
+#include "config.h"
 
-#include <vector>
+#include "glad.h"
+
 #include <cmath>
 #include <cstdlib>
-#include <iostream>
 #include <algorithm>
-#include <ctime>
+#include <vector>
 
-// ============================
-//           CONFIG
-// ============================
+PhysarumSim::PhysarumSim()
+{
+    trail.resize(WIDTH * HEIGHT, 0.0f);
+    trail_next.resize(WIDTH * HEIGHT, 0.0f);
+    food.resize(WIDTH * HEIGHT, 0.0f);
 
-const int WIDTH  = 800;
-const int HEIGHT = 800;
+    initAgents();
+    initFood();
+}
 
-const int NUM_AGENTS = 250000;
+float PhysarumSim::randf()
+{
+    return rand() / (float)RAND_MAX;
+}
 
-// sensors
-const float SENSOR_DIST  = 30.0f;
-const float SENSOR_ANGLE = 0.5f;
-const float TURN_SPEED   = 0.35f;
-const float STEP_SIZE    = 1.8f;
+void PhysarumSim::initAgents()
+{
+    for (int i = 0; i < NUM_AGENTS; i++) {
 
-// dynamics
-const float RANDOM_STRENGTH = 1.2f;
-const float EXPLORATION_CHANCE = 0.02f;
+        float angle = randf() * 2.0f * M_PI;
+        float radius = randf() * 50.0f;
 
-// enviroment
-const float DIFFUSE_RATE = 0.45f;
-const float DECAY_RATE   = 0.84f;
-
-// food (optional)
-const float FOOD_DECAY = 0.995f;
-const float FOOD_WEIGHT = 12.0f;
-const float TRAIL_WEIGHT = 0.3f;
-const float CONSUME_RATE = 0.3f;
-
-// ============================
-//         AGENT BUILD
-// ============================
-
-struct Agent {
-    float x, y;
-    float angle;
-    
-    Agent(float x, float y, float angle) : x(x), y(y), angle(angle) {}
-};
-
-// ============================
-//      PHYSARUM SIMULATION
-// ============================
-
-class PhysarumSim {
-public:
-
-    std::vector<Agent> agents;
-    std::vector<float> trail;
-    std::vector<float> trail_next;
-    std::vector<float> food;
-
-    PhysarumSim() {
-        trail.resize(WIDTH * HEIGHT, 0.0f);
-        trail_next.resize(WIDTH * HEIGHT, 0.0f);
-        food.resize(WIDTH * HEIGHT, 0.0f);
-
-        initAgents();
-        initFood();
+        agents.push_back({
+            WIDTH/2 + cos(angle) * radius,
+            HEIGHT/2 + sin(angle) * radius,
+            randf() * 2.0f * M_PI
+        });
     }
+}
 
-    // ------------------------
-    //          RANDOM
-    // ------------------------
-
-    float randf() {
-        return rand() / (float)RAND_MAX;
-    }
-
-    // ------------------------
-    //           INIT
-    // ------------------------
-
-    void initAgents() {
-        for (int i = 0; i < NUM_AGENTS; i++) {
-
-            float angle = randf() * 2.0f * M_PI;
-            float radius = randf() * 50.0f;
-
-            agents.push_back({
-                WIDTH/2 + cos(angle) * radius,
-                HEIGHT/2 + sin(angle) * radius,
-                randf() * 2.0f * M_PI
-            });
-        }
-    }
-
-    void addFoodCircle(int cx, int cy, float radius, float strength) {
+void PhysarumSim::addFoodCircle(int cx, int cy, float radius, float strength) {
         for (int x = -radius; x <= radius; x++) {
             for (int y = -radius; y <= radius; y++) {
 
@@ -113,17 +56,13 @@ public:
         }
     }
 
-    void initFood() {
+void PhysarumSim::initFood() {
         addFoodCircle(200, 200, 30, 300.0f);
         addFoodCircle(700, 700, 30, 300.0f);
         addFoodCircle(200, 700, 30, 300.0f);
     }
 
-    // ------------------------
-    //          SENSE
-    // ------------------------
-
-    float sense(float x, float y, float angle) {
+float PhysarumSim::sense(float x, float y, float angle) {
 
         int sx = (int)(x + cos(angle) * SENSOR_DIST);
         int sy = (int)(y + sin(angle) * SENSOR_DIST);
@@ -136,11 +75,7 @@ public:
         return trail[idx] * TRAIL_WEIGHT + food[idx] * FOOD_WEIGHT;
     }
 
-    // ------------------------
-    //       UPDATE AGENTS
-    // ------------------------
-
-    void updateAgents() {
+void PhysarumSim::updateAgents() {
 
         for (auto &a : agents) {
 
@@ -195,11 +130,7 @@ public:
         }
     }
 
-    // ------------------------
-    //        DIFFUSE
-    // ------------------------
-
-    void diffuse() {
+void PhysarumSim::diffuse(){
 
         for (int x = 1; x < WIDTH-1; x++) {
             for (int y = 1; y < HEIGHT-1; y++) {
@@ -226,31 +157,19 @@ public:
         trail.swap(trail_next);
     }
 
-    // ------------------------
-    //          FOOD                (optional)
-    // ------------------------
-
-    void updateFood() {
-        for (auto &f : food) {
+void PhysarumSim::updateFood(){
+    for (auto &f : food) {
             f *= FOOD_DECAY;
         }
-    }
+}
 
-    // ------------------------
-    //         UPDATE
-    // ------------------------
-
-    void update() {
-        updateAgents();
+void PhysarumSim::update(){
+     updateAgents();
         diffuse();
         //updateFood();             (optional)
-    }
+}
 
-    // ------------------------
-    //         RENDER
-    // ------------------------
-
-    void render() {
+void PhysarumSim::render(){
 
         std::vector<unsigned char> pixels(WIDTH * HEIGHT * 3);
 
@@ -277,42 +196,6 @@ public:
         }
 
         glDrawPixels(WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
-    }
-};
 
-// ============================
-//           MAIN
-// ============================
-
-int main() {
-
-    srand(time(NULL));
-
-    if (!glfwInit()) {
-        std::cout << "Erro GLFW\n";
-        return -1;
-    }
-
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Physarum CPP", NULL, NULL);
-    glfwMakeContextCurrent(window);
-
-    if (!gladLoadGL()) {
-        std::cout << "Erro GLAD\n";
-        return -1;
-    }
-
-    PhysarumSim sim;
-
-    while (!glfwWindowShouldClose(window)) {
-
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        sim.update();
-        sim.render();
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
 }
+
