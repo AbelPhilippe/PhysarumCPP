@@ -92,5 +92,6 @@ g++ main.cpp glad.c -o sim.exe -lglfw3 -lopengl32 -lgdi32
 </h3>
 
 - [x] Colours
+- [ ] Shaders
 - [ ] Game concept
 - [ ] Output modeling
