@@ -26,11 +26,14 @@ cd PhysaryumCPP
 ```
 ## Install.sh and Build.sh
 ```bash
-chmod +X install.sh
-chmod +X build.sh
+chmod +x install.sh
+chmod +x build.sh
 ./install.sh
 ./build.sh
+
+The entire build process is available in `build.sh` and `build/`, so you can see exactly how the project is compiled.
 ```
+
 
 ## If you use VScode debugger: Tasks.json (you need use g++ compiler)
 ```json
