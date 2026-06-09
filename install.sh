@@ -1,3 +1,27 @@
+#!/bin/bash
+
+set -e
+
+echo "Update"
 sudo apt update
-sudo apt install mesa-utils
-sudo apt install build-essential libglfw3-dev libgl1-mesa-dev
+
+echo "Compile Tools"
+sudo apt install -y \
+    build-essential \
+    cmake \
+    git
+
+echo "OpenGL"
+sudo apt install -y \
+    mesa-utils \
+    libgl1-mesa-dev
+
+echo "GLFW && X11"
+sudo apt install -y \
+    libglfw3-dev \
+    libx11-dev \
+    libxrandr-dev \
+    libxinerama-dev \
+    libxcursor-dev \
+    libxi-dev \
+    libxxf86vm-dev
