@@ -17,17 +17,21 @@
 - C++ compiler (g++)
 - OpenGL
 - GLFW
+- Cmake
 
 ## Clone Repository
 ```bash
 git clone -v https://github.com/AbelPhilippe/PhysarumCPP
 cd PhysaryumCPP
 ```
-## Install.sh
+## Install.sh and Build.sh
 ```bash
 chmod +X install.sh
+chmod +X build.sh
 ./install.sh
+./build.sh
 ```
+
 ## If you use VScode debugger: Tasks.json (you need use g++ compiler)
 ```json
 {
