@@ -31,7 +31,7 @@ chmod +x build.sh
 ./install.sh
 ./build.sh
 
-The entire build process is available in `build.sh` and `build/`, so you can see exactly how the project is compiled.
+The entire build process is available in `build.sh`, so you can see exactly how the project is compiled.
 ```
 
 
