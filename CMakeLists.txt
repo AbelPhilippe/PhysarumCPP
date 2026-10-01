@@ -25,19 +25,19 @@ target_include_directories(glad PUBLIC
     ${CMAKE_SOURCE_DIR}/glad
 )
 
-# Executável
+# Executable
 add_executable(sim
     src/main.cpp
     src/simulation.cpp
 )
 
-# Headers do projeto
+# Headers
 target_include_directories(sim PRIVATE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/glad
 )
 
-# Bibliotecas
+# Libs
 target_link_libraries(sim PRIVATE
     glad
     glfw
